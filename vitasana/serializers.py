@@ -25,6 +25,10 @@ class BasinInfoSerializer(serializers.HyperlinkedModelSerializer):
 #Validation for null value of fields
     def validate(self, data):
         required_fields = ['FirstName', 'LastName', 'Age','Gender', 'Occupation', 'MaritialStatus', 'Address', 'City', 'State','Pincode','MobileNumber', 'AlternateNumber', 'EmailAddress','EmergencyContactPersonFirstName', 'EmergencyContactPersonLastName', 'EmergencyContactPersonMobileNumber', 'EmergencyContactPersonRelation']
+
+         # Remove 'patientid' from the list of required fields
+        if 'patientid' in required_fields:
+            required_fields.remove('patientid')
         
         # Check if any of the required fields are missing or empty
         for field in required_fields:
