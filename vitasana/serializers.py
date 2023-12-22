@@ -23,19 +23,90 @@ class BasinInfoSerializer(serializers.HyperlinkedModelSerializer):
         return data
         
 #Validation for null value of fields
-    def validate(self, data):
-        required_fields = ['FirstName', 'LastName', 'Age','Gender', 'Occupation', 'MaritialStatus', 'Address', 'City', 'State','Pincode','MobileNumber', 'AlternateNumber', 'EmailAddress','EmergencyContactPersonFirstName', 'EmergencyContactPersonLastName', 'EmergencyContactPersonMobileNumber', 'EmergencyContactPersonRelation']
+    def validate_FirstName(self, value):
+        if not value:
+            raise serializers.ValidationError("First Name cannot be empty.")
+        return value
 
-         # Remove 'patientid' from the list of required fields
-        if 'patientid' in required_fields:
-            required_fields.remove('patientid')
-        
-        # Check if any of the required fields are missing or empty
-        for field in required_fields:
-            if field not in data or not data[field]:
-                raise serializers.ValidationError(f"{field} field is required.")
-        
-        return data 
+    def validate_LastName(self, value):
+        if not value:
+            raise serializers.ValidationError("Last Name cannot be empty.")
+        return value
+    
+    def validate_Age(self, value):
+        if not value:
+            raise serializers.ValidationError("Age cannot be empty.")
+        return value
+
+    def validate_Gender(self, value):
+        if not value:
+            raise serializers.ValidationError("Gender cannot be empty.")
+        return value
+    def validate_Occupation(self, value):
+        if not value:
+            raise serializers.ValidationError("Occupation cannot be empty.")
+        return value
+    
+    def validate_MaritialStatus(self, value):
+        if not value:
+            raise serializers.ValidationError("MaritialStatus cannot be empty.")
+        return value
+    
+    def validate_Address(self, value):
+        if not value:
+            raise serializers.ValidationError("Address cannot be empty.")
+        return value
+    
+    def validate_City(self, value):
+        if not value:
+            raise serializers.ValidationError("City cannot be empty.")
+        return value
+    
+    def validate_State(self, value):
+        if not value:
+            raise serializers.ValidationError("State cannot be empty.")
+        return value
+    
+    def validate_Pincode(self, value):
+        if not value:
+            raise serializers.ValidationError("Pincode cannot be empty.")
+        return value
+
+    def validate_MobileNumber(self, value):
+        if not value:
+            raise serializers.ValidationError("Mobile Number cannot be empty.")
+        return value
+    
+    def validate_AlternateNumber(self, value):
+        if not value:
+            raise serializers.ValidationError("AlternateNumber cannot be empty.")
+        return value
+
+    def validate_EmailAddress(self, value):
+        if not value:
+            raise serializers.ValidationError("Email Address cannot be empty.")
+        return value
+    
+    def validate_EmergencyContactPersonFirstName(self, value):
+        if not value:
+            raise serializers.ValidationError("EmergencyContactPersonFirstName cannot be empty.")
+        return value
+    
+    def validate_EmergencyContactPersonLastName(self, value):
+        if not value:
+            raise serializers.ValidationError("EmergencyContactPersonLastName cannot be empty.")
+        return value
+
+    def validate_EmergencyContactPersonMobileNumber(self, value):
+        if not value:
+            raise serializers.ValidationError("EmergencyContactPersonMobileNumber cannot be empty.")
+        return value
+    
+    def validate_EmergencyContactPersonRelation(self, value):
+        if not value:
+            raise serializers.ValidationError("EmergencyContactPersonRelation cannot be empty.")
+        return value
+ 
    
 #PhysicalProfile Serializers
         
