@@ -3,7 +3,7 @@ from vitasana.models import BasicInfo,PhysicalProfile,MedicalProfile,HabitsInfo
 
 #basicinfo Serializers
 class BasinInfoSerializer(serializers.HyperlinkedModelSerializer):
-    #patientid=serializers.ReadOnlyField()
+    patientid=serializers.ReadOnlyField()
     class Meta:
         model = BasicInfo
         #fields = ['','']
