@@ -27,7 +27,7 @@ class BasicInfo(models.Model):
         
     ]
 
-    patientid = models.IntegerField(primary_key=True)
+    patientid = models.AutoField(primary_key=True)
     FirstName = models.CharField(max_length=255, null=True)
     MiddleName = models.CharField(max_length=255, null=True)
     LastName = models.CharField(max_length=255, null=True)
