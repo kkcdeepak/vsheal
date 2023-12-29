@@ -153,6 +153,7 @@ DATABASES = {
     'default' : dj_database_url.parse('postgres://kkc_vitasan:3zFk6ovFFCSPlnhAqq6S4tzNgWFUnUys@dpg-cm1u0mi1hbls73brpq7g-a.singapore-postgres.render.com/vitasana_db')
 }
 
+
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
 
