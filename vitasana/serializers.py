@@ -1,5 +1,8 @@
 from rest_framework import serializers
-from vitasana.models import BasicInfo,PhysicalProfile,MedicalProfile,HabitsInfo
+from vitasana.models import BasicInfo,PhysicalProfile,MedicalProfile,HabitsInfo,BasicInfoOp,Vitals,Pathology,AvPariksha,DietPlan,Prescription
+
+
+#HEALTH ASSESSMENT SYSTEM Serialization
 
 #basicinfo Serializers
 class BasinInfoSerializer(serializers.HyperlinkedModelSerializer):
@@ -110,11 +113,12 @@ class BasinInfoSerializer(serializers.HyperlinkedModelSerializer):
    
 #PhysicalProfile Serializers
         
-class PhysicalProfileSerializers(serializers.HyperlinkedModelSerializer):
+class PhysicalProfileSerializer(serializers.HyperlinkedModelSerializer):
     #patientid=serializers.ReadOnlyField()
     class Meta:
         model = PhysicalProfile
         fields = "__all__" 
+
 
 #Validation for null value of fields
     def validate(self, data):
@@ -131,7 +135,7 @@ class PhysicalProfileSerializers(serializers.HyperlinkedModelSerializer):
 
 #MedicalProfile Serializers
 
-class MedicalProfileSerializers(serializers.HyperlinkedModelSerializer):
+class MedicalProfileSerializer(serializers.HyperlinkedModelSerializer):
     #patientid=serializers.ReadOnlyField()
     class Meta:
         model = MedicalProfile
@@ -151,11 +155,41 @@ class MedicalProfileSerializers(serializers.HyperlinkedModelSerializer):
 
 #HabitsInfo Serializers
 
-class HabitsInfoSerializers(serializers.HyperlinkedModelSerializer):
+class HabitsInfoSerializer(serializers.HyperlinkedModelSerializer):
     #patientid=serializers.ReadOnlyField()
     class Meta:
         model = HabitsInfo
         fields = "__all__" 
+    
+    def to_representation(self, instance):
+        data = super().to_representation(instance)
+        
+        # Handle conditional representation for SmokingHabit
+        smoking_habit = data.get('SmokingHabit')
+        if smoking_habit == 'No':
+            data.pop('CigarettesPerDay', None)
+            data.pop('YearsOfSmoking', None)
+
+        # Handle conditional representation for AlcoholConsumption
+        alcohol_consumption = data.get('AlcoholConsumption')
+        if alcohol_consumption == 'No':
+            data.pop('DrinksPerDay_Alcohol', None)
+            data.pop('YearsOfDrinking_Alcohol', None)
+
+        # Handle conditional representation for CaffeineConsumption
+        caffeine_consumption = data.get('CaffeineConsumption')
+        if caffeine_consumption == 'No':
+            data.pop('NumberOfCupsPerDay_Caffeine', None)
+            data.pop('YearsOfDrinking_Caffeine', None)
+
+        # Handle conditional representation for TobaccoConsumption
+        tobacco_consumption = data.get('TobaccoConsumption')
+        if tobacco_consumption == 'No':
+            data.pop('TimesPerDay_Tobacco', None)
+
+        return data
+
+
 
 #Validation for null value of fields
     def validate(self, data):
@@ -167,3 +201,52 @@ class HabitsInfoSerializers(serializers.HyperlinkedModelSerializer):
                 raise serializers.ValidationError(f"{field} field is required.")
         
         return data 
+
+
+#OUT PATIENT ASSESSMENT SYSTEM  Serialization
+#---------------------------------------------
+
+#BASIC INFO-OP ASSESSMENT
+    
+class BasicInfoOpSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = BasicInfoOp
+        fields = '__all__'
+
+#Vitals OP ASSESSMENT
+        
+class VitalsSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Vitals
+        fields = '__all__'
+
+#Pathology OP ASSESSMENT
+
+class PathologySerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Pathology
+        fields = '__all__'
+
+#AvPariksha OP ASSESSMENT
+
+class AvParikshaSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = AvPariksha        
+        fields = '__all__'
+
+#OP ASSESSMENT SYSTEM- PRESCRIPTION
+
+class PrescriptionSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Prescription        
+        fields = '__all__'
+
+
+
+
+#OP ASSESSMENT SYSTEM- DIET PLAN
+
+class DietPlanSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = DietPlan        
+        fields = '__all__'
