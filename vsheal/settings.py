@@ -24,7 +24,7 @@ SECRET_KEY = 'django-insecure-7e=-z!fu#-e_*v+m4-h8#nkq-ay4j6pjodg=^r@3=l4-q(3!5t
 
 # SECURITY WARNING: don't run with debug turned on in production!
 #DEBUG = True
-DEBUG = True
+DEBUG = False
 
 #Need to change
 ALLOWED_HOSTS = ['*']
@@ -136,23 +136,22 @@ WSGI_APPLICATION = 'vsheal.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
-
+'''
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-
+'''
 
 #Render PostgreSQL database (Live)
-'''
+
 import dj_database_url
 
 DATABASES = {
     'default' : dj_database_url.parse('postgres://kkc_vitasan:3zFk6ovFFCSPlnhAqq6S4tzNgWFUnUys@dpg-cm1u0mi1hbls73brpq7g-a.singapore-postgres.render.com/vitasana_db')
 }
-'''
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
@@ -197,13 +196,13 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 
-# REST_FRAMEWORK = {
-#     # Use Django's standard `django.contrib.auth` permissions,
-#     # or allow read-only access for unauthenticated users.
-#     # 'DEFAULT_PERMISSION_CLASSES': [
-#     #     'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
-#     # ],
-#      'DEFAULT_RENDERER_CLASSES': (
-#         'rest_framework.renderers.JSONRenderer',
-#     )
-# }
+REST_FRAMEWORK = {
+    # Use Django's standard `django.contrib.auth` permissions,
+    # or allow read-only access for unauthenticated users.
+    # 'DEFAULT_PERMISSION_CLASSES': [
+    #     'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    # ],
+     'DEFAULT_RENDERER_CLASSES': (
+        'rest_framework.renderers.JSONRenderer',
+    )
+}
