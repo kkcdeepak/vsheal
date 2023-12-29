@@ -75,7 +75,7 @@ class PhysicalProfile(models.Model):
 
 
 
-    phy_profile_id = models.IntegerField(primary_key=True)
+    phy_profile_id = models.AutoField(primary_key=True)
     Height = models.DecimalField(max_digits=5, decimal_places=2, null=True)
     Weight = models.DecimalField(max_digits=5, decimal_places=2, null=True)
     Appetite = models.CharField(max_length=50, choices=APPETITE_CHOICES, null=True)
@@ -98,7 +98,7 @@ class MedicalProfile(models.Model):
         ('no', 'No'),
     ]
 
-    med_profile_id = models.IntegerField(primary_key=True)
+    med_profile_id = models.AutoField(primary_key=True)
     SupplementsTaken = models.CharField(max_length=500, null=True)
     RecentIllnessOrInjury = models.CharField(max_length=3, choices=YES_NO_CHOICES, null=True)
     ChronicMedicalConditions = models.CharField(max_length=3, choices=YES_NO_CHOICES, null=True)
@@ -119,7 +119,7 @@ class HabitsInfo(models.Model):
         ('No', 'No'),
     ]
 
-    hab_info_id = models.IntegerField(primary_key=True)
+    hab_info_id = models.AutoField(primary_key=True)
     LevelOfActivity = models.CharField(max_length=500, null=True)
 
     SmokingHabit = models.CharField(max_length=3, choices=YES_NO_CHOICES, default='No')
@@ -147,7 +147,7 @@ class HabitsInfo(models.Model):
 #------------------------------
     
 class BasicInfoOp(models.Model):
-    BasicInfoOpID = models.IntegerField(primary_key=True)
+    BasicInfoOpID = models.AutoField(primary_key=True)
     Weight = models.DecimalField(max_digits=5, decimal_places=2, null=True, default=None)
     Height = models.DecimalField(max_digits=5, decimal_places=2, null=True, default=None)
     patientid = models.ForeignKey(BasicInfo , on_delete=models.CASCADE)
@@ -190,7 +190,7 @@ class Vitals(models.Model):
         ('tobacco', 'tobacco'),
     ]
 
-    vitals_id = models.IntegerField(primary_key=True)
+    vitals_id = models.AutoField(primary_key=True)
     Temperature = models.CharField(max_length=3, choices=TEMPERATURE_CHOICES, null=True)
     BP = models.CharField(max_length=9, choices=BP_CHOICES, null=True)
     GeneralBodyType = models.CharField(max_length=100, null=True)
@@ -224,7 +224,7 @@ class Pathology(models.Model):
         ('incurable', 'incurable'),
     ]
 
-    pathology_id = models.IntegerField(primary_key=True)
+    pathology_id = models.AutoField(primary_key=True)
     BloodTestsAdvisedDate = models.DateField(null=True)
     BloodReportsSummaryDate = models.DateField(null=True)
     MentionBloodOutcome = models.CharField(max_length=4, choices=BLOOD_OUTCOME_CHOICES, null=True)
@@ -334,7 +334,7 @@ class AvPariksha(models.Model):
         ('charming', 'charming'),
     ]
 
-    av_pariksha_id = models.IntegerField(primary_key=True)
+    av_pariksha_id = models.AutoField(primary_key=True)
     StoolConsistency = models.CharField(max_length=10, choices=STOOL_CONSISTENCY_CHOICES, null=True)
     StoolOdour = models.CharField(max_length=7, choices=STOOL_ODOUR_CHOICES, null=True)
     StoolColour = models.CharField(max_length=50, null=True)
@@ -367,7 +367,7 @@ class AvPariksha(models.Model):
     
 
 class Prescription(models.Model):
-    prescription_id = models.IntegerField(primary_key=True)
+    prescription_id = models.AutoField(primary_key=True)
     Complaints = models.TextField(null=True)
     Investigation_Findings = models.TextField(null=True)
     Preliminary_Diagnosis = models.TextField(null=True)
@@ -396,7 +396,7 @@ class Prescription(models.Model):
     
 
 class DietPlan(models.Model):
-    dietplan_id = models.IntegerField(primary_key=True)
+    dietplan_id = models.AutoField(primary_key=True)
     Dietician = models.CharField(max_length = 50, null=True)
     MON_MEAL = models.TextField(max_length = 1000, null=True)
     TUE_MEAL = models.TextField(max_length = 1000, null=True)
