@@ -80,7 +80,7 @@ class PhysicalProfile(models.Model):
     Weight = models.DecimalField(max_digits=5, decimal_places=2, null=True)
     Appetite = models.CharField(max_length=50, choices=APPETITE_CHOICES, null=True)
     SleepCycle = models.CharField(max_length=50, choices=SLEEP_CYCLE_CHOICES, null=True)
-    FoodPreferences = models.TextField(null=True)
+    FoodPreferences = models.JSONField(null=True)
     DigestiveIssues = models.TextField(null=True)
     CuisinePreferred = models.TextField(null=True)
     Description1 = models.TextField(null=True)
