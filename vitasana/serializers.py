@@ -5,7 +5,7 @@ from vitasana.models import BasicInfo,PhysicalProfile,MedicalProfile,HabitsInfo,
 #HEALTH ASSESSMENT SYSTEM Serialization
 
 #basicinfo Serializers
-class BasinInfoSerializer(serializers.HyperlinkedModelSerializer):
+class BasinInfoSerializer(serializers.ModelSerializer):
     patientid=serializers.ReadOnlyField()
     class Meta:
         model = BasicInfo
@@ -113,7 +113,7 @@ class BasinInfoSerializer(serializers.HyperlinkedModelSerializer):
    
 #PhysicalProfile Serializers
         
-class PhysicalProfileSerializer(serializers.HyperlinkedModelSerializer):
+class PhysicalProfileSerializer(serializers.ModelSerializer):
     #patientid=serializers.ReadOnlyField()
     class Meta:
         model = PhysicalProfile
@@ -135,7 +135,7 @@ class PhysicalProfileSerializer(serializers.HyperlinkedModelSerializer):
 
 #MedicalProfile Serializers
 
-class MedicalProfileSerializer(serializers.HyperlinkedModelSerializer):
+class MedicalProfileSerializer(serializers.ModelSerializer):
     #patientid=serializers.ReadOnlyField()
     class Meta:
         model = MedicalProfile
@@ -155,7 +155,7 @@ class MedicalProfileSerializer(serializers.HyperlinkedModelSerializer):
 
 #HabitsInfo Serializers
 
-class HabitsInfoSerializer(serializers.HyperlinkedModelSerializer):
+class HabitsInfoSerializer(serializers.ModelSerializer):
     #patientid=serializers.ReadOnlyField()
     class Meta:
         model = HabitsInfo
