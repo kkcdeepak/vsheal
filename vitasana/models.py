@@ -82,9 +82,9 @@ class PhysicalProfile(models.Model):
     SleepCycle = models.CharField(max_length=50, choices=SLEEP_CYCLE_CHOICES, null=True)
     FoodPreferences = models.JSONField(null=True)
     DigestiveIssues = models.JSONField(null=True)
-    CuisinePreferred = models.CharField(max_length=500, null=True)
-    Description1 = models.CharField(max_length=500, null=True)
-    Description2 = models.CharField(max_length=500, null=True)
+    CuisinePreferred = models.JSONField(null=True)
+    Description1 = models.JSONField(null=True)
+    Description2 = models.JSONField(null=True)
     patientid = models.ForeignKey(BasicInfo, on_delete=models.CASCADE)
 
 
