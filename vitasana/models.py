@@ -99,7 +99,7 @@ class MedicalProfile(models.Model):
     ]
 
     med_profile_id = models.AutoField(primary_key=True)
-    SupplementsTaken = models.TextField(null=True)
+    SupplementsTaken = models.JSONField(null=True)
     RecentIllnessOrInjury = models.CharField(max_length=3, choices=YES_NO_CHOICES, null=True)
     ChronicMedicalConditions = models.CharField(max_length=3, choices=YES_NO_CHOICES, null=True)
     DiagnosedWithChronicDiseases = models.CharField(max_length=3, choices=YES_NO_CHOICES, null=True)
