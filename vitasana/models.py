@@ -80,11 +80,11 @@ class PhysicalProfile(models.Model):
     Weight = models.DecimalField(max_digits=5, decimal_places=2, null=True)
     Appetite = models.CharField(max_length=50, choices=APPETITE_CHOICES, null=True)
     SleepCycle = models.CharField(max_length=50, choices=SLEEP_CYCLE_CHOICES, null=True)
-    FoodPreferences = models.CharField(max_length=500, null=True)
-    DigestiveIssues = models.CharField(max_length=500, null=True)
-    CuisinePreferred = models.CharField(max_length=500,null=True)
-    Description1 = models.CharField(max_length=500, null=True)
-    Description2 = models.CharField(max_length=500, null=True)
+    FoodPreferences = models.TextField(null=True)
+    DigestiveIssues = models.TextField(null=True)
+    CuisinePreferred = models.TextField(null=True)
+    Description1 = models.TextField(null=True)
+    Description2 = models.TextField(null=True)
     patientid = models.ForeignKey(BasicInfo, on_delete=models.CASCADE)
 
 
@@ -99,7 +99,7 @@ class MedicalProfile(models.Model):
     ]
 
     med_profile_id = models.AutoField(primary_key=True)
-    SupplementsTaken = models.CharField(max_length=500, null=True)
+    SupplementsTaken = models.TextField(null=True)
     RecentIllnessOrInjury = models.CharField(max_length=3, choices=YES_NO_CHOICES, null=True)
     ChronicMedicalConditions = models.CharField(max_length=3, choices=YES_NO_CHOICES, null=True)
     DiagnosedWithChronicDiseases = models.CharField(max_length=3, choices=YES_NO_CHOICES, null=True)
@@ -120,7 +120,7 @@ class HabitsInfo(models.Model):
     ]
 
     hab_info_id = models.AutoField(primary_key=True)
-    LevelOfActivity = models.CharField(max_length=500, null=True)
+    LevelOfActivity = models.TextField(null=True)
 
     SmokingHabit = models.CharField(max_length=3, choices=YES_NO_CHOICES, default='No')
     CigarettesPerDay = models.IntegerField(null=True, blank=True)
