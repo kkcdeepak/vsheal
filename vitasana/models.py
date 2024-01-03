@@ -128,7 +128,7 @@ class HabitsInfo(models.Model):
     ]
 
     hab_info_id = models.AutoField(primary_key=True)
-    LevelOfActivity = models.TextField(null=True)
+    LevelOfActivity = models.JSONField(null=True)
 
     SmokingHabit = models.CharField(max_length=3, choices=YES_NO_CHOICES, default='No')
     CigarettesPerDay = models.IntegerField(null=True, blank=True)
