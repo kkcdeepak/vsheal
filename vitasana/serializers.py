@@ -144,13 +144,18 @@ class MedicalProfileSerializer(serializers.ModelSerializer):
 
 #Validation for null value of fields
     def validate(self, data):
-        required_fields = ['SupplementsTaken', 'RecentIllnessOrInjury', 'ChronicMedicalConditions','DiagnosedWithChronicDiseases', 'RespiratorySymptoms', 'NeurologicalSymptoms', 'DrugAllergiesOrAdverseReactions']
+        required_fields = ['SupplementsTaken', 'RecentIllnessOrInjury', 'ChronicMedicalConditions', 'DiagnosedWithChronicDiseases', 'RespiratorySymptoms', 'NeurologicalSymptoms', 'DrugAllergiesOrAdverseReactions']
         
-        # Check if any of the required fields are missing or empty
         for field in required_fields:
             if field not in data or not data[field]:
                 raise serializers.ValidationError(f"{field} field is required.")
-        
+
+        # Check if 'Yes' is selected for specific fields and their corresponding detail fields are provided
+        yes_fields = ['RecentIllnessOrInjury', 'ChronicMedicalConditions', 'DiagnosedWithChronicDiseases', 'RespiratorySymptoms', 'NeurologicalSymptoms', 'DrugAllergiesOrAdverseReactions']
+        for field in yes_fields:
+            if data.get(field) == 'yes' and f"{field}_details" not in data:
+                raise serializers.ValidationError(f"{field}_details field is required when {field} is 'yes'.")
+
         return data 
 
 #HabitsInfo Serializers
