@@ -100,12 +100,20 @@ class MedicalProfile(models.Model):
 
     med_profile_id = models.AutoField(primary_key=True)
     SupplementsTaken = models.JSONField(null=True)
+	
     RecentIllnessOrInjury = models.CharField(max_length=3, choices=YES_NO_CHOICES, null=True)
+    RecentIllnessOrInjury_details = models.TextField(null=True)
     ChronicMedicalConditions = models.CharField(max_length=3, choices=YES_NO_CHOICES, null=True)
+    ChronicMedicalConditions_details = models.TextField(null=True)
     DiagnosedWithChronicDiseases = models.CharField(max_length=3, choices=YES_NO_CHOICES, null=True)
+    DiagnosedWithChronicDiseases_details = models.TextField(null=True)
     RespiratorySymptoms = models.CharField(max_length=3, choices=YES_NO_CHOICES, null=True)
+    RespiratorySymptoms_details = models.TextField(null=True)
     NeurologicalSymptoms = models.CharField(max_length=3, choices=YES_NO_CHOICES, null=True)
+    NeurologicalSymptoms_details = models.TextField(null=True)
     DrugAllergiesOrAdverseReactions = models.CharField(max_length=3, choices=YES_NO_CHOICES, null=True)
+    DrugAllergiesOrAdverseReactions_details = models.TextField(null=True)
+	
     patientid = models.ForeignKey(BasicInfo, on_delete=models.CASCADE)
 
 
