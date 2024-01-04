@@ -208,16 +208,7 @@ class HabitsInfoSerializer(serializers.ModelSerializer):
 
 
 
-#Validation for null value of fields
-    def validate(self, data):
-        required_fields = ['LevelOfActivity', 'SmokingHabit', 'AlcoholConsumption','CaffeineConsumption', 'TobaccoConsumption', 'OtherHabits']
-        
-        # Check if any of the required fields are missing or empty
-        for field in required_fields:
-            if field not in data or not data[field]:
-                raise serializers.ValidationError(f"{field} field is required.")
-        
-        return data 
+
 
 
 #OUT PATIENT ASSESSMENT SYSTEM  Serialization
