@@ -180,6 +180,17 @@ class HabitsInfoSerializer(serializers.ModelSerializer):
         model = HabitsInfo
         fields = "__all__" 
 
+    #Validation for null value of fields
+    def validate(self, data):
+        required_fields = ['LevelOfActivity', 'SmokingHabit', 'AlcoholConsumption','CaffeineConsumption', 'TobaccoConsumption', 'OtherHabits']
+        
+        # Check if any of the required fields are missing or empty
+        for field in required_fields:
+            if field not in data or not data[field]:
+                raise serializers.ValidationError(f"{field} field is required.")
+        
+        return data   
+
     def create(self, validated_data):
         patient_id = validated_data.get('patientid')
 
