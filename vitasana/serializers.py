@@ -156,6 +156,19 @@ class MedicalProfileSerializer(serializers.ModelSerializer):
 
         fields = "__all__" 
 
+    def create(self, validated_data):
+        patient_id = validated_data.get('patientid')
+
+        try:
+            existing_instance = PhysicalProfile.objects.get(patientid=patient_id)
+            # If instance exists, update the existing record with validated_data
+            for attr, value in validated_data.items():
+                setattr(existing_instance, attr, value)
+            existing_instance.save()
+            return existing_instance
+        except PhysicalProfile.DoesNotExist:
+            return PhysicalProfile.objects.create(**validated_data)
+
 #Validation for null value of fields
     def validate(self, data):
         required_fields = ['SupplementsTaken', 'RecentIllnessOrInjury', 'ChronicMedicalConditions', 'DiagnosedWithChronicDiseases', 'RespiratorySymptoms', 'NeurologicalSymptoms', 'DrugAllergiesOrAdverseReactions']
