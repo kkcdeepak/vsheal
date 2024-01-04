@@ -25,35 +25,62 @@ class BasicInfoViewSet(viewsets.ModelViewSet):
     
 #url:vitasana/basicinfo/patientid/patient
     
-    @action(detail=True,methods=['get'])
-    def patient(self,request,pk=None):
-
+    @action(detail=True, methods=['get', 'put'])
+    def patient(self, request, pk=None):
         try:
             patient = BasicInfo.objects.get(patientid=pk)
+        except BasicInfo.DoesNotExist:
+            return Response({'message': 'Patient does not exist'}, status=status.HTTP_404_NOT_FOUND)
+
+        if request.method == 'GET':
             basic_info_serializer = BasinInfoSerializer(patient, context={'request': request})
-
-            patient=BasicInfo.objects.get(patientid=pk)
-            phyprofile=PhysicalProfile.objects.filter(patientid=pk)
-            phyprofile_serializer=PhysicalProfileSerializer(phyprofile,many=True,context={'request':request})
-
+            phyprofile = PhysicalProfile.objects.filter(patientid=pk)
+            phyprofile_serializer = PhysicalProfileSerializer(phyprofile, many=True, context={'request': request})
             medprofile = MedicalProfile.objects.filter(patientid=pk)
-            medprofile_serializer = MedicalProfileSerializer(medprofile,many=True,context={'request':request})
-
+            medprofile_serializer = MedicalProfileSerializer(medprofile, many=True, context={'request': request})
             habitsinfo = HabitsInfo.objects.filter(patientid=pk)
-            habitsinfo_serializer = HabitsInfoSerializer(habitsinfo,many=True,context={'request':request})
+            habitsinfo_serializer = HabitsInfoSerializer(habitsinfo, many=True, context={'request': request})
 
             return Response({
-                 'basic_info': basic_info_serializer.data,
+                'basic_info': basic_info_serializer.data,
                 'physical_profile': phyprofile_serializer.data,
                 'medical_profile': medprofile_serializer.data,
                 'habits_info': habitsinfo_serializer.data,
             })
 
-        
-        except BasicInfo.DoesNotExist:
-            return Response({'message': 'Patient does not exist'}, status=status.HTTP_404_NOT_FOUND)
-        except Exception as e:
-            return Response({'message': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        elif request.method == 'PUT':
+            basic_info_serializer = BasinInfoSerializer(patient, data=request.data.get('basic_info'), partial=True)
+            basic_info_serializer.is_valid(raise_exception=True)
+            basic_info_serializer.save()
+
+            phyprofile_data = request.data.get('physical_profile')
+            phyprofile = PhysicalProfile.objects.filter(patientid=pk)  # Fetch phyprofile queryset
+            phyprofile_serializer = PhysicalProfileSerializer(data=phyprofile_data, many=True, partial=True)
+            phyprofile_serializer.is_valid(raise_exception=True)
+            for index, data in enumerate(phyprofile_data):
+                instance = phyprofile[index] if index < len(phyprofile) else None
+                phyprofile_serializer.save(patientid=patient, instance=instance)
+
+            medprofile_data = request.data.get('medical_profile')
+            medprofile = MedicalProfile.objects.filter(patientid=pk)  # Fetch medprofile queryset
+            medprofile_serializer = MedicalProfileSerializer(data=medprofile_data, many=True, partial=True)
+            medprofile_serializer.is_valid(raise_exception=True)
+            for index, data in enumerate(medprofile_data):
+                instance = medprofile[index] if index < len(medprofile) else None
+                medprofile_serializer.save(patientid=patient, instance=instance)
+
+            habitsinfo_data = request.data.get('habits_info')
+            habitsinfo = HabitsInfo.objects.filter(patientid=pk)  # Fetch habitsinfo queryset
+            habitsinfo_serializer = HabitsInfoSerializer(data=habitsinfo_data, many=True, partial=True)
+            habitsinfo_serializer.is_valid(raise_exception=True)
+            for index, data in enumerate(habitsinfo_data):
+                instance = habitsinfo[index] if index < len(habitsinfo) else None
+                habitsinfo_serializer.save(patientid=patient, instance=instance)
+
+            return Response({'message': 'Patient information updated successfully.'}, status=status.HTTP_200_OK)
+
+        else:
+            return Response({'message': 'Invalid request method. Use GET or PUT.'}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
 
 #PhysicalProfile RestApi Views
     
