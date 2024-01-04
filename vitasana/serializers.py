@@ -165,6 +165,18 @@ class HabitsInfoSerializer(serializers.ModelSerializer):
     class Meta:
         model = HabitsInfo
         fields = "__all__" 
+
+    def create(self, validated_data):
+        patient_id = validated_data.get('patientid')
+
+        try:
+            existing_instance = HabitsInfo.objects.get(patientid=patient_id)
+            for attr, value in validated_data.items():
+                setattr(existing_instance, attr, value)
+            existing_instance.save()
+            return existing_instance
+        except HabitsInfo.DoesNotExist:
+            return HabitsInfo.objects.create(**validated_data)
     
     def to_representation(self, instance):
         data = super().to_representation(instance)
