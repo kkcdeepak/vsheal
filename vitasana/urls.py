@@ -3,6 +3,7 @@ from django.contrib import admin
 from django.urls import path,include
 from rest_framework import routers
 from vitasana.views import index,BasicInfoViewSet,PhysicalProfileViewSet,MedicalProfileViewSet,HabitsInfoViewSet,BasicInfoOpViewSet,VitalsViewSet,PathologyViewSet,AvParikshaViewSet,DietPlanViewSet,PrescriptionViewSet
+from vitasana.views import patient_records_mobnumber
 
 router = routers.DefaultRouter()
 router.register(r'basicinfo',BasicInfoViewSet)
@@ -21,5 +22,6 @@ urlpatterns = [
    
     path('index/', index, name="index"),
     path('',include(router.urls))
+    path('patient_records/<str:mobile_number>/',patient_records_mobnumber, name= "patient_records_mobnumber")
 
 ]
