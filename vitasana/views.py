@@ -13,34 +13,6 @@ def index(request):
 #RestApi Views HEALTH ASSESSMENT SYSTEM
 #Record based on Mobilenumber
 
-@api_view(['GET'])
-def patient_records_mobnumber(request, mobile_number):
-    # Check if the mobile number exists in BasicInfo
-    try:
-        # Check if the mobile number exists in BasicInfo
-        basic_info = BasicInfo.objects.get(MobileNumber=mobile_number)
-    except BasicInfo.DoesNotExist:
-        #return Response("No matching records found for this mobile number.")
-        return Response({'message': 'No matching records found for this mobile number'}, status=status.HTTP_404_NOT_FOUND)
-
-
-    # Retrieve patient records related to the mobile number
-    patient_id = basic_info.patientid
-
-    basic_info_serializer = BasinInfoSerializer(basic_info, context={'request': request})
-    phyprofile = PhysicalProfile.objects.filter(patientid=patient_id)
-    phyprofile_serializer = PhysicalProfileSerializer(phyprofile, many=True, context={'request': request})
-    medprofile = MedicalProfile.objects.filter(patientid=patient_id)
-    medprofile_serializer = MedicalProfileSerializer(medprofile, many=True, context={'request': request})
-    habitsinfo = HabitsInfo.objects.filter(patientid=patient_id)
-    habitsinfo_serializer = HabitsInfoSerializer(habitsinfo, many=True, context={'request': request})
-
-    return Response({
-        'basic_info': basic_info_serializer.data,
-        'physical_profile': phyprofile_serializer.data,
-        'medical_profile': medprofile_serializer.data,
-        'habits_info': habitsinfo_serializer.data,
-    })
 
 #BaicInfo RestApi Views
 class BasicInfoViewSet(viewsets.ModelViewSet):
