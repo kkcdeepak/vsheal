@@ -418,5 +418,91 @@ class DietPlan(models.Model):
     ANALYSISOFDIET = models.TextField(null=True)
     patientid = models.ForeignKey(BasicInfo, on_delete=models.CASCADE)    
 
+
+#DOSHA QUESTIONAIREE SYSTEM
+#----------------------------
     
+#DOSHA QUESTIONAIREE SYSTEM-PERSONAL DETAILS
+    
+class PersonalDetails_Dosa(models.Model):
+    GENDER_CHOICES = [
+        ('Male', 'Male'),
+        ('Female', 'Female'),
+        ('Others', 'Others'),
+    ]
+
+    personalid = models.AutoField(primary_key=True)
+    first_name = models.CharField(max_length=50, null=True)
+    last_name = models.CharField(max_length=50, null=True)
+    age = models.IntegerField(null=True)
+    gender = models.CharField(max_length=6, choices=GENDER_CHOICES, null=True)
+    height = models.DecimalField(max_digits=10, decimal_places=4, null=True)
+    weight = models.DecimalField(max_digits=10, decimal_places=4, null=True)
+    email = models.EmailField(max_length=100, null=True)
+    phone = models.CharField(max_length=20, null=True)
+
+#DOSHA QUESTIONAIREE SYSTEM-PHYSICAL CHARACTERISTICS
+    
+class PhysicalChar_Dosa(models.Model):
+    physical_char_id = models.AutoField(primary_key=True)
+    body_built = models.CharField(max_length=500, null=True)
+    scalp_hair = models.CharField(max_length=500, null=True)
+    body_hair = models.CharField(max_length=500, null=True)
+    skin = models.CharField(max_length=500, null=True)
+    face = models.CharField(max_length=500, null=True)
+    forehead = models.CharField(max_length=500, null=True)
+    eyes = models.CharField(max_length=500, null=True)
+    eyelashes = models.CharField(max_length=500, null=True)
+    teeth = models.CharField(max_length=500, null=True)
+    lips = models.CharField(max_length=500, null=True)
+    tongue = models.CharField(max_length=500, null=True)
+    hands = models.CharField(max_length=500, null=True)
+    extremities = models.CharField(max_length=500, null=True)
+    chest = models.CharField(max_length=500, null=True)
+    joints = models.CharField(max_length=500, null=True)
+    blood_vessels = models.CharField(max_length=500, null=True)
+    personalid = models.ForeignKey(PersonalDetails_Dosa, on_delete=models.CASCADE)
+
+#DOSHA QUESTIONAIREE SYSTEM-PHYSIOLOGICAL CHARACTERISTICS
+    
+class PhysiologicalChar_Dosa(models.Model):
+    physiological_char_id = models.AutoField(primary_key=True)
+    body_temperature = models.CharField(max_length=300)
+    appetite = models.CharField(max_length=300)
+    pattern_of_eating = models.CharField(max_length=300)
+    taste_preferences = models.CharField(max_length=300)
+    thirst = models.CharField(max_length=300)
+    bowel_movement = models.CharField(max_length=300)
+    weight = models.CharField(max_length=300)
+    sleep = models.CharField(max_length=300)
+    sexual_desire = models.CharField(max_length=300)
+    stamina = models.CharField(max_length=300)
+    sweating = models.CharField(max_length=300)
+    odour = models.CharField(max_length=300)
+    weather_preference = models.CharField(max_length=300)
+    voice = models.CharField(max_length=300)
+    speech_pattern = models.CharField(max_length=300)
+    discussion = models.CharField(max_length=300)
+    walk = models.CharField(max_length=300)
+    health_problems = models.CharField(max_length=300)
+    personalid = models.ForeignKey(PersonalDetails_Dosa, on_delete=models.CASCADE)
+
+#DOSHA QUESTIONAIREE SYSTEM-PSYCHOLOGICAL CHARACTERISTICS
+    
+class PsychologicalChar_Dosa(models.Model):
+    psychological_char_id = models.AutoField(primary_key=True)
+    personality = models.CharField(max_length=300, null=True)
+    mind = models.CharField(max_length=300, null=True)
+    memory = models.CharField(max_length=300, null=True)
+    decision_making = models.CharField(max_length=300, null=True)
+    emotions = models.CharField(max_length=300, null=True)
+    temperament = models.CharField(max_length=300, null=True)
+    hobbies = models.CharField(max_length=300, null=True)
+    activities = models.CharField(max_length=300, null=True)
+    faith_in_god = models.CharField(max_length=300, null=True)
+    dreams = models.CharField(max_length=300, null=True)
+    personalid = models.ForeignKey(PersonalDetails_Dosa, on_delete=models.CASCADE)
+
+
+
 
