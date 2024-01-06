@@ -20,7 +20,6 @@ router.register(r'dietplan',DietPlanViewSet)
 urlpatterns = [
    
     path('index/', index, name="index"),
-    path('',include(router.urls)),
-    path('patient_records/<str:mobile_number>/',patient_records_mobnumber, name= "patient_records_mobnumber")
+    path('',include(router.urls))
 
 ]
