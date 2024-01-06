@@ -14,16 +14,13 @@ class BasinInfoSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 #validation for fields
-    #duplicate record validation    
-    def validate_MobileNumber(self, data):
-        # Check if the MobileNumber already exists in the database
-        mobile_number_exists = BasicInfo.objects.filter(MobileNumber=data).exists()
-
-        # If the mobile number already exists, raise a validation error
-        if mobile_number_exists:
+    #mobile number verfication at the time of object creation
+    def create(self, validated_data):
+        mobile_number = validated_data.get('MobileNumber')
+        if BasicInfo.objects.filter(MobileNumber=mobile_number).exists():
             raise serializers.ValidationError("This mobile number already exists in the database.")
-        
-        return data
+
+        return super().create(validated_data)   
         
 #Validation for null value of fields
     def validate_FirstName(self, value):
