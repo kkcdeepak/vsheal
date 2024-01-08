@@ -12,7 +12,6 @@ class BasinInfoSerializer(serializers.ModelSerializer):
         #fields = ['','']
         #exclude = ['',]
         fields = "__all__"
-
 #validation for fields
     #mobile number verfication at the time of object creation
     def create(self, validated_data):
@@ -21,7 +20,7 @@ class BasinInfoSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError("This mobile number already exists in the database.")
 
         return super().create(validated_data)   
-        
+            
 #Validation for null value of fields
     def validate_FirstName(self, value):
         if not value:
@@ -116,20 +115,6 @@ class PhysicalProfileSerializer(serializers.ModelSerializer):
         model = PhysicalProfile
         fields = "__all__" 
 
-    def create(self, validated_data):
-        patient_id = validated_data.get('patientid')
-
-        try:
-            existing_instance = PhysicalProfile.objects.get(patientid=patient_id)
-            # If instance exists, update the existing record with validated_data
-            for attr, value in validated_data.items():
-                setattr(existing_instance, attr, value)
-            existing_instance.save()
-            return existing_instance
-        except PhysicalProfile.DoesNotExist:
-            return PhysicalProfile.objects.create(**validated_data)
-
-
 
 #Validation for null value of fields
     def validate(self, data):
@@ -141,18 +126,7 @@ class PhysicalProfileSerializer(serializers.ModelSerializer):
                 raise serializers.ValidationError(f"{field} field is required.")
         
         return data 
-   
-
-
-#MedicalProfile Serializers
-
-class MedicalProfileSerializer(serializers.ModelSerializer):
-    #patientid=serializers.ReadOnlyField()
-    class Meta:
-        model = MedicalProfile
-
-        fields = "__all__" 
-
+    
     def create(self, validated_data):
         patient_id = validated_data.get('patientid')
 
@@ -165,6 +139,16 @@ class MedicalProfileSerializer(serializers.ModelSerializer):
             return existing_instance
         except PhysicalProfile.DoesNotExist:
             return PhysicalProfile.objects.create(**validated_data)
+
+
+#MedicalProfile Serializers
+
+class MedicalProfileSerializer(serializers.ModelSerializer):
+    #patientid=serializers.ReadOnlyField()
+    class Meta:
+        model = MedicalProfile
+
+        fields = "__all__" 
 
 #Validation for null value of fields
     def validate(self, data):
@@ -180,7 +164,21 @@ class MedicalProfileSerializer(serializers.ModelSerializer):
             if data.get(field) == 'yes' and f"{field}_details" not in data:
                 raise serializers.ValidationError(f"{field}_details field is required when {field} is 'yes'.")
 
-        return data 
+        return data
+    
+    def create(self, validated_data):
+        patient_id = validated_data.get('patientid')
+
+        try:
+            existing_instance = PhysicalProfile.objects.get(patientid=patient_id)
+            # If instance exists, update the existing record with validated_data
+            for attr, value in validated_data.items():
+                setattr(existing_instance, attr, value)
+            existing_instance.save()
+            return existing_instance
+        except PhysicalProfile.DoesNotExist:
+            return PhysicalProfile.objects.create(**validated_data)
+    
 
 #HabitsInfo Serializers
 
@@ -188,18 +186,7 @@ class HabitsInfoSerializer(serializers.ModelSerializer):
     #patientid=serializers.ReadOnlyField()
     class Meta:
         model = HabitsInfo
-        fields = "__all__" 
-
-    #Validation for null value of fields
-    def validate(self, data):
-        required_fields = ['LevelOfActivity', 'SmokingHabit', 'AlcoholConsumption','CaffeineConsumption', 'TobaccoConsumption', 'OtherHabits']
-        
-        # Check if any of the required fields are missing or empty
-        for field in required_fields:
-            if field not in data or not data[field]:
-                raise serializers.ValidationError(f"{field} field is required.")
-        
-        return data   
+        fields = "__all__"
 
     def create(self, validated_data):
         patient_id = validated_data.get('patientid')
@@ -212,7 +199,8 @@ class HabitsInfoSerializer(serializers.ModelSerializer):
             return existing_instance
         except HabitsInfo.DoesNotExist:
             return HabitsInfo.objects.create(**validated_data)
-    
+ 
+
     def to_representation(self, instance):
         data = super().to_representation(instance)
         
@@ -245,41 +233,62 @@ class HabitsInfoSerializer(serializers.ModelSerializer):
 
 
 
-
 #OUT PATIENT ASSESSMENT SYSTEM  Serialization
 #---------------------------------------------
 
 #BASIC INFO-OP ASSESSMENT
     
-class BasicInfoOpSerializer(serializers.HyperlinkedModelSerializer):
+class BasicInfoOpSerializer(serializers.ModelSerializer):
     class Meta:
         model = BasicInfoOp
         fields = '__all__'
 
 #Vitals OP ASSESSMENT
         
-class VitalsSerializer(serializers.HyperlinkedModelSerializer):
+class VitalsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Vitals
         fields = '__all__'
 
+
+#WomenHealth Serializers
+
+class WomenHealthSerializer(serializers.ModelSerializer):
+    def create(self, validated_data):
+        # Extract patientid from the validated data
+        patient_id = validated_data.pop('patientid')
+
+        # Check the gender before creating the WomenHealth instance
+        basic_info_instance = BasicInfo.objects.get(patientid=patient_id.data)
+        if basic_info_instance.Gender == 'Female':
+            # Use the patientid value instead of passing the BasicInfo instance directly
+            validated_data['patientid'] = patient_id
+            women_health_instance = WomenHealth.objects.create(**validated_data)
+            return women_health_instance
+        else:
+            raise serializers.ValidationError("WomenHealth information can only be added for females.")
+    class Meta:
+        model = WomenHealth
+        fields = "__all__"
+
+
 #Pathology OP ASSESSMENT
 
-class PathologySerializer(serializers.HyperlinkedModelSerializer):
+class PathologySerializer(serializers.ModelSerializer):
     class Meta:
         model = Pathology
         fields = '__all__'
 
 #AvPariksha OP ASSESSMENT
 
-class AvParikshaSerializer(serializers.HyperlinkedModelSerializer):
+class AvParikshaSerializer(serializers.ModelSerializer):
     class Meta:
         model = AvPariksha        
         fields = '__all__'
 
 #OP ASSESSMENT SYSTEM- PRESCRIPTION
 
-class PrescriptionSerializer(serializers.HyperlinkedModelSerializer):
+class PrescriptionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Prescription        
         fields = '__all__'
@@ -289,7 +298,7 @@ class PrescriptionSerializer(serializers.HyperlinkedModelSerializer):
 
 #OP ASSESSMENT SYSTEM- DIET PLAN
 
-class DietPlanSerializer(serializers.HyperlinkedModelSerializer):
+class DietPlanSerializer(serializers.ModelSerializer):
     class Meta:
         model = DietPlan        
         fields = '__all__'
@@ -367,3 +376,5 @@ class PsychologicalChar_DosaSerializer(serializers.ModelSerializer):
         except PsychologicalChar_Dosa.DoesNotExist:
             return PsychologicalChar_Dosa.objects.create(**validated_data)
 
+
+    

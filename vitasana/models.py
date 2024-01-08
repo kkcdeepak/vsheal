@@ -80,7 +80,7 @@ class PhysicalProfile(models.Model):
     Weight = models.DecimalField(max_digits=5, decimal_places=2, null=True)
     Appetite = models.CharField(max_length=50, choices=APPETITE_CHOICES, null=True)
     SleepCycle = models.CharField(max_length=50, choices=SLEEP_CYCLE_CHOICES, null=True)
-    FoodPreferences = models.JSONField(null=True)
+    FoodPreferences = models.JSONField(null=True)  
     DigestiveIssues = models.JSONField(null=True)
     CuisinePreferred = models.JSONField(null=True)
     Description1 = models.JSONField(null=True)
@@ -100,20 +100,26 @@ class MedicalProfile(models.Model):
 
     med_profile_id = models.AutoField(primary_key=True)
     SupplementsTaken = models.JSONField(null=True)
-	
+
     RecentIllnessOrInjury = models.CharField(max_length=3, choices=YES_NO_CHOICES, null=True)
     RecentIllnessOrInjury_details = models.TextField(null=True)
+
     ChronicMedicalConditions = models.CharField(max_length=3, choices=YES_NO_CHOICES, null=True)
     ChronicMedicalConditions_details = models.TextField(null=True)
+
     DiagnosedWithChronicDiseases = models.CharField(max_length=3, choices=YES_NO_CHOICES, null=True)
     DiagnosedWithChronicDiseases_details = models.TextField(null=True)
+
     RespiratorySymptoms = models.CharField(max_length=3, choices=YES_NO_CHOICES, null=True)
     RespiratorySymptoms_details = models.TextField(null=True)
+
     NeurologicalSymptoms = models.CharField(max_length=3, choices=YES_NO_CHOICES, null=True)
     NeurologicalSymptoms_details = models.TextField(null=True)
+
     DrugAllergiesOrAdverseReactions = models.CharField(max_length=3, choices=YES_NO_CHOICES, null=True)
     DrugAllergiesOrAdverseReactions_details = models.TextField(null=True)
-	
+
+
     patientid = models.ForeignKey(BasicInfo, on_delete=models.CASCADE)
 
 
@@ -148,6 +154,7 @@ class HabitsInfo(models.Model):
 
     OtherHabits = models.CharField(max_length=500, null=True)
     patientid = models.ForeignKey(BasicInfo , on_delete=models.CASCADE)  #here basic info changed from string to model name
+
 
 
 
@@ -419,6 +426,44 @@ class DietPlan(models.Model):
     patientid = models.ForeignKey(BasicInfo, on_delete=models.CASCADE)    
 
 
+#OP ASSESSMENT SYSTEM -WomenHealth
+    
+class WomenHealth(models.Model):
+    CYCLE_TYPE_CHOICES = (
+        ('Regular', 'Regular Cycle'),
+        ('Irregular', 'Irregular Cycle')
+    )
+
+    YES_NO_CHOICES = (
+        ('Yes', 'Yes'),
+        ('No', 'No')
+    )
+
+
+    womenhealth_id = models.AutoField(primary_key=True)
+    menstrual_history = models.CharField(max_length=20, choices=CYCLE_TYPE_CHOICES)
+    length_of_cycle = models.IntegerField(default=0)
+    duration_of_bleeding = models.IntegerField(default=0)
+    abnormal_record = models.CharField(max_length=100)
+
+    white_discharge = models.CharField(max_length=3, choices=YES_NO_CHOICES)
+    cramps_during_menstruation = models.CharField(max_length=3, choices=YES_NO_CHOICES)
+    bloating_during_menstruation = models.CharField(max_length=3, choices=YES_NO_CHOICES)
+    loose_stools_during_menstruation = models.CharField(max_length=3, choices=YES_NO_CHOICES)
+    constipation_during_menstruation = models.CharField(max_length=3, choices=YES_NO_CHOICES)
+    other_symptoms = models.TextField(blank=True)
+
+    number_of_pregnancies = models.PositiveIntegerField(default=0)
+    childbirth_type = models.CharField(max_length=50)
+    number_of_deliveries = models.PositiveIntegerField(default=0)
+    nature_of_deliveries = models.CharField(max_length=50)
+    complications_during_pregnancy = models.TextField(blank=True)
+    baby_birth_defects_or_complications = models.CharField(max_length=3, choices=YES_NO_CHOICES)
+    patientid = models.ForeignKey(BasicInfo , on_delete=models.CASCADE)
+
+
+    
+
 #DOSHA QUESTIONAIREE SYSTEM
 #----------------------------
     
@@ -502,7 +547,5 @@ class PsychologicalChar_Dosa(models.Model):
     faith_in_god = models.CharField(max_length=300, null=True)
     dreams = models.CharField(max_length=300, null=True)
     personalid = models.ForeignKey(PersonalDetails_Dosa, on_delete=models.CASCADE)
-
-
 
 
