@@ -314,6 +314,13 @@ class PersonalDetails_DosaSerializer(serializers.ModelSerializer):
         model = PersonalDetails_Dosa
         fields = '__all__'
 
+    def create(self, validated_data):
+        mobile_number = validated_data.get('phone')
+        if PersonalDetails_Dosa.objects.filter(phone=mobile_number).exists():
+            raise serializers.ValidationError("This mobile number already exists in the database.")
+        
+        return super().create(validated_data)
+
 
 #DOSHA QUESTIONAIREE SYSTEM- PHYSICAL CHARACTERISTICS
 
